@@ -1,1 +1,919 @@
 
+/* 全局样式重置 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: "Helvetica Neue", Helvetica, Arial, "Microsoft Yahei", sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+}
+a {
+    text-decoration: none;
+    color: inherit;
+}
+ul {
+    list-style: none;
+}
+
+/* 版心容器（标准1226px宽，跟原版小米一致） */
+.container {
+    width: 1226px;
+    margin: 0 auto;
+}
+/* 顶部通栏基础属性定义 */
+.site-topbar {
+    height: 40px;
+    background-color: #333;
+    font-size: 12px;
+    line-height: 40px;
+    color: #b0b0b0;
+}
+
+/* 弹性网格控制：确保容器内左中右三块两端对齐且垂直居中 */
+.site-topbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* 导航容器防换行与最大宽度限制 */
+.topbar-nav {
+    max-width: 780px; 
+    white-space: nowrap; 
+}
+.topbar-nav a {
+    margin: 0 2px;
+}
+.topbar-nav a:hover {
+    color: #fff;
+}
+
+/* 分隔竖线紧凑化调整 */
+.sep {
+    margin: 0 4px;
+    color: #424242;
+}
+
+/* 购物车父级容器：开启相对定位，为下拉菜单提供定位基准 */
+.topbar-cart {
+    position: relative;
+    background-color: #424242;
+    padding: 0 12px;
+    margin-left: auto; 
+    margin-right: 15px;
+    z-index: 100; /* 确保菜单图层处于最上方，不被其他组件遮挡 */
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+/* 鼠标悬停变色特效 */
+.topbar-cart:hover {
+    background-color: #fff;
+}
+.topbar-cart:hover .cart-mini {
+    color: #ff6700;
+}
+
+/* 下拉菜单面板核心实现：默认状态高度为0，超出隐藏 */
+.cart-menu {
+    position: absolute;
+    right: 0;
+    top: 40px; 
+    width: 316px;
+    height: 0; 
+    background-color: #fff;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    overflow: hidden; 
+    transition: height 0.3s ease; /* 开启高度平滑过渡动画 */
+}
+
+/* 触发器机制：悬停时触发高度展开并增加上边框 */
+.topbar-cart:hover .cart-menu {
+    height: 100px; 
+    border-top: 1px solid #e0e0e0;
+}
+
+/* 面板内部文字排版 */
+.cart-menu .loading-text {
+    padding: 35px 20px;
+    text-align: center;
+    color: #b0b0b0;
+    font-size: 12px;
+}
+
+/* 登录框防止非预期换行 */
+.topbar-info {
+    white-space: nowrap;
+}
+
+/* 2. 头部导航与搜索 */
+.site-header {
+    height: 100px;
+    background-color: #fff;
+    position: relative;
+}
+.header-flex {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+.header-logo .logo {
+    display: block;
+    width: 55px;
+    height: 55px;
+    background-color: #ff6700; /* 小米橙 */
+    color: #fff;
+    font-weight: bold;
+    text-align: center;
+    line-height: 55px;
+    font-size: 24px;
+    border-radius: 18px;
+}
+.header-nav {
+    margin-left: 60px;
+}
+.nav-list {
+    display: flex;
+}
+.nav-item {
+    padding: 26px 10px;
+    font-size: 16px;
+    color: #333;
+}
+.nav-item:hover {
+    color: #ff6700;
+}
+.header-search {
+    margin-left: auto;
+}
+.search-form {
+    display: flex;
+    position: relative;
+}
+.search-text {
+    width: 220px;
+    height: 50px;
+    border: 1px solid #e0e0e0;
+    padding: 0 10px;
+    outline: none;
+}
+.search-btn {
+    width: 50px;
+    height: 50px;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-left: none;
+    cursor: pointer;
+}
+.search-btn:hover {
+    background-color: #ff6700;
+    color: #fff;
+    border-color: #ff6700;
+}
+
+/* 3. 核心大图和垂直分类区 */
+.home-hero-container {
+    position: relative;
+    width: 1226px;
+    margin: 0 auto;
+    margin-bottom: 26px;
+}
+
+.hero-relative {
+    position: relative;
+    height: 460px;
+}
+
+.site-category{
+    position:absolute;
+    left:0;
+    top:0;
+
+    width:234px;
+    height:460px;
+
+    background:#696565;
+
+    z-index:10;
+}
+
+.category-item{
+    height:46px;
+    line-height:46px;
+}
+
+.category-item a{
+    display:block;
+    padding-left:30px;
+
+    color:#fff;
+    font-size:14px;
+}
+
+.category-item:hover{
+    background:#ff6700;
+}
+
+
+
+
+.children-box{
+    display:none;
+
+    position:absolute;
+    left:234px;
+    top:0;
+
+    width:520px;
+    height:460px;
+
+    background:#fff;
+
+    box-shadow:0 8px 16px rgba(0,0,0,.18);
+
+    z-index:99;
+
+
+}
+
+.category-item:hover .children-box{
+    display:block;
+}
+
+.child-item{
+    display:flex;
+    align-items:center;
+
+    height:60px;
+
+    padding:10px 20px;
+
+    cursor:pointer;
+}
+
+.child-item img{
+    width:40px;
+    height:40px;
+
+    margin-right:12px;
+
+    object-fit:contain;
+}
+
+.child-item:hover span{
+    color:#ff6700;
+}
+
+.child-item:hover{
+    color:#ff6700;
+}
+
+.child-item span{
+    font-size:14px;
+    color:#333;
+}
+
+
+
+
+
+/* 右侧轮播图系统 */
+.slider-wrapper {
+    width: 1226px;
+    height: 460px;
+    position: relative;
+    overflow: hidden;
+
+}
+.slider-slide {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+.slider-slide.active {
+    opacity: 1;
+}
+.slider-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    
+}
+.slider-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 41px;
+    height: 69px;
+    line-height: 69px;
+    text-align: center;
+    background-color: rgba(0,0,0,0.1);
+    color: #fff;
+    font-size: 30px;
+    z-index: 5;
+}
+.slider-arrow:hover {
+    background-color: rgba(0,0,0,0.6);
+}
+.slider-arrow.prev { left: 0px; } /* 避开左侧菜单 */
+.slider-arrow.next { right: 0; }
+.slider-dots {
+    position: absolute;
+    bottom: 20px;
+    right: 30px;
+    z-index: 5;
+}
+.dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border: 2px solid #fff;
+    background: rgba(0,0,0,0.4);
+    border-radius: 50%;
+    margin: 0 4px;
+    cursor: pointer;
+}
+.dot.active {
+    background: #fff;
+}
+
+/* 4. 商品展示展示 */
+.page-main {
+    padding-top: 30px;
+    padding-bottom: 50px;
+}
+.page-main .title {
+    font-size: 22px;
+    font-weight: 200;
+    line-height: 50px;
+    color: #333;
+}
+.goods-list {
+        display: flex;
+    gap: 14px;
+}
+.goods-item {
+    width: 234px;
+    height: 300px;
+    background-color: #fff;
+    padding: 20px 0;
+    text-align: center;
+    transition: all 0.5s linear;
+}
+.goods-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+}
+.goods-item img {
+    width: 160px;
+    height: 160px;
+    margin: 0 auto 15px;
+}
+.goods-item .name {
+    font-size: 14px;
+    font-weight: 400;
+    color: #333;
+}
+.goods-item .desc {
+    margin: 0 10px 10px;
+    height: 18px;
+    font-size: 12px;
+    color: #b0b0b0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.goods-item .price {
+    color: #ff6700;
+    font-size: 14px;
+}
+
+
+/* ==================== 新增：家电区域辅助样式 ==================== */
+.appliance-box {
+    background-color: #f5f5f5; /* 商城经典的灰底衬托白卡片 */
+    padding: 10px 0;
+}
+
+/* 1. 顶部家电分类导航 */
+.appliance-box .box-hd {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.appliance-box .box-hd .tab-list ul {
+    display: flex;
+    list-style: none;
+}
+.appliance-box .box-hd .tab-list li {
+    margin-left: 30px;
+    font-size: 16px;
+}
+.appliance-box .box-hd .tab-list li a {
+    text-decoration: none;
+    color: #424242;
+    padding-bottom: 4px;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s;
+}
+/* 鼠标悬停以及被激活时的橙色下划线 */
+.appliance-box .box-hd .tab-list li.active a,
+.appliance-box .box-hd .tab-list li a:hover {
+    color: #ff6700;
+    border-bottom-color: #ff6700;
+}
+
+/* 2. 大图广告位微调：铺满盒子不留 padding */
+.appliance-box .promo-card {
+    padding: 0 !important;
+}
+.appliance-box .promo-img {
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+}
+
+/* 3. 第一行和第二行之间的规整间距 */
+.margin-bottom-14 {
+    margin-bottom: 14px;
+}
+
+/* 4. 原价：横线划掉效果，字号与商品简介对齐（12px） */
+.goods-item .price .price-old {
+    color: #b0b0b0;
+    font-size: 12px;
+    text-decoration:line-through;
+    margin-left: 8px;
+}
+
+/* ==================== 5. 核心特色：第二行第五列的上下等分盒子 ==================== */
+.split-goods-col {
+    width: 234px;
+    height: 300px;
+    display: flex;
+    flex-direction:column;
+    justify-content: space-between; /* 撑开上下，中间留出14px空隙 */
+}
+
+/* 两个拆分后的小卡片通用基本样式（复用你原本的动画与底色） */
+.small-item-card {
+    width: 234px;
+    height: 143px;             /* 143 + 143 + 14px间距 = 300px 完全对齐 */
+    background-color: #fff;
+    box-sizing: border-box;
+    transition: all 0.2s linear;
+}
+/* 触发你原生的升起和阴影效果 */
+.small-item-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+}
+
+.small-item-card a {
+    display: flex;             /* 改为左右排列：左边字，右边图 */
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+    height: 100%;
+    text-decoration: none;
+}
+
+/* 左侧文字区 */
+.small-item-card .card-text {
+    text-align: left;
+    width: 94px;               /* 限制文本宽度，防止长名字挤压图片 */
+}
+
+/* 小单品文字要求 */
+.small-item-card .small-name {
+    font-size: 14px;
+    font-weight: 400;
+    color: #333;
+    margin: 0 0 5px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.small-item-card .small-price {
+    font-size: 14px;
+    color: #ff6700;
+}
+.small-item-card img {
+    width: 80px;
+    height: 80px;
+}
+
+/* 浏览更多专属卡片：字号加大2~3号 */
+.more-card .more-title {
+    font-size: 17px;           /* 比普通介绍大 3px 更加显眼醒目 */
+    color: #333;
+    font-weight: 400;
+    margin: 0 0 2px 0;
+}
+.more-card .change-text {
+    font-size: 12px;
+    color: #b0b0b0;            /* 灰色副标题 */
+}
+/* 更多箭头的尺寸控制 */
+.more-card .arrow-img {
+    width: 48px !important;
+    height: 48px !important;
+}
+
+
+/* ========== 弹窗样式 ========== */
+#login-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-box {
+    background-color: #fff;
+    width: 360px;
+    padding: 30px 25px 25px;
+    border-radius: 12px;
+    position: relative;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+#modal-close {
+    position: absolute;
+    top: 12px;
+    right: 18px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #999;
+}
+
+#modal-close:hover {
+    color: #ff6700;
+}
+
+#modal-title {
+    font-size: 22px;
+    font-weight: 500;
+    margin-bottom: 25px;
+    color: #333;
+}
+
+.modal-box input {
+    width: 100%;
+    height: 45px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 0 15px;
+    margin-bottom: 16px;
+    font-size: 14px;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.modal-box input:focus {
+    border-color: #ff6700;
+}
+
+#modal-submit-btn {
+    width: 100%;
+    height: 45px;
+    background-color: #ff6700;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: background-color 0.2s;
+}
+
+#modal-submit-btn:hover {
+    background-color: #e55a00;
+}
+
+#modal-switch-text {
+    color: #ff6700;
+    font-size: 13px;
+    text-decoration: none;
+}
+
+#modal-switch-text:hover {
+    text-decoration: underline;
+}
+
+.modal-box p {
+    margin-top: 18px;
+    margin-bottom: 0;
+}
+
+/*导航项小米手机*/
+
+/* 导航项的定位参考 */
+.dropdown-trigger {
+    position: static;
+}
+
+/* 下拉菜单面板：初始隐藏 */
+.dropdown-menu {
+    position: absolute;
+    top: 100%;          /* 紧贴在导航链接下方 */
+    left: 0;
+    width: 100%;      
+    background-color: #fff;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    border-top: 1px solid #e0e0e0;
+    
+    /* 关键：隐藏和动画效果 */
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.5s ease;
+    z-index: 100;
+}
+
+/* 鼠标悬停时，显示下拉菜单 */
+.dropdown-trigger:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* 内部产品卡片布局 */
+.dropdown-container {
+
+    width: 1226px;      /* 设为标准版心宽度 */
+    margin: 0 auto;     /* 居中对齐 */
+    display: flex;
+justify-content: space-between;
+    gap: 0;             /* 清空间距，改用均匀分配 */
+    padding: 35px 0;    /* 上下留白 */
+}
+
+.product-card {
+    text-align: center;
+    width: 150px;
+}
+
+.product-card img {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    margin-bottom: 10px;
+}
+
+.product-card h4 {
+    font-size: 14px;
+    margin: 5px 0;
+    color: #333;
+}
+
+.product-card p {
+    font-size: 14px;
+    color: #ff6700;
+    font-weight: bold;
+}
+
+/* 右侧 */
+.right-bar {
+    position: fixed;
+    right: 20px;
+    bottom: 80px;          /* 固定在右下角偏上位置，符合商城规范 */
+    z-index: 999;          /* 确保层级最高，不被轮播图遮挡 */
+    width: 84px;           /* 宽度适中，不再显得太窄 */
+    background: #ffffff;
+    border: 1px solid #eeeeee;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* 添加一层淡淡的阴影，更精致 */
+}
+
+
+.right-bar .bar-item {
+    position: relative;    /* 为二维码绝对定位提供参考物 */
+    display: flex;
+    flex-direction: column;/* 图标在上，文字在下排列 */
+    align-items: center;
+    justify-content: center;
+    height: 84px;          /* 正方形小格子 */
+    border-bottom: 1px solid #f5f5f5;
+    text-decoration: none; /* 去除 a 标签下划线 */
+    color: #757575;        /* 默认灰字 */
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+
+/* 最后一项（购物车）去掉下边框 */
+.right-bar .bar-item:last-child {
+    border-bottom: none;
+}
+
+/* 里面的图片图标控制 */
+.right-bar .bar-icon {
+    width: 30px;           /* 限制图标大小 */
+    height: 30px;
+    margin-bottom: 6px;    /* 图标和文字的间距 */
+}
+
+/* 里面的文字控制 */
+.right-bar .bar-text {
+    font-size: 12px;
+}
+
+/* 鼠标悬停时：文字变成小米经典的橙色 */
+.right-bar .bar-item:hover {
+    color: #ff6700;
+}
+
+.right-bar .app-btn .qrcode-pop {
+    position: absolute;
+    left: -136px;          /* 往左侧推，空出与主栏的间隙 */
+    top: 0;
+    width: 124px;
+    padding: 10px;
+    background: #ffffff;
+    border: 1px solid #dddddd;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    text-align: center;
+    box-sizing: border-box;
+    
+    /* 隐藏属性 */
+    display: none;
+}
+
+/* 二维码里面的图片 */
+.right-bar .app-btn .qrcode-pop img {
+    width: 100px;
+    height: 100px;
+    display: block;
+    margin: 0 auto 6px;
+}
+
+/* 二维码下面的小字 */
+.right-bar .app-btn .qrcode-pop p {
+    margin: 0;
+    font-size: 12px;
+    color: #333333;
+}
+
+/* 关键：当鼠标悬浮在手机APP(app-btn)上时，让里面的 qrcode-pop 显示 */
+.right-bar .app-btn:hover .qrcode-pop {
+    display: block;
+}
+
+/* 六张表格和促销图 */
+.custom-grid-container {
+    width: 1226px;             /* 严格对齐小米商城主宽度 */
+    margin: 15px auto;         /* 上下留出间距，左右居中 */
+    display: flex;             /* 左右分栏 */
+}
+/* ==================== 左侧：六个表格按钮 ==================== */
+.left-table-box {
+    width: 234px;              /* 宽度严格等同于小米左侧边栏 */
+    height: 170px;             /* 固定高度 */
+    background: #5f5750;       /* 比普通左边栏稍微深一点点、更有质感的深咖灰色 */
+    padding: 2px;              /* 留出微小内边距 */
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 严格平分 3 列 */
+    grid-template-rows: repeat(2, 1fr);    /* 严格平分 2 行 */
+    box-sizing: border-box;
+}
+.left-table-box .table-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    color: #cfccca;            /* 默认浅灰字 */
+    text-decoration: none;
+    text-align: center;
+    padding: 0 4px;
+    position: relative;
+    transition: color 0.2s, background 0.2s;
+}
+/* 鼠标悬停变亮效果 */
+.left-table-box .table-item:hover {
+    color: #ffffff;            /* 文字变纯白亮起 */
+    background: #6a6159;       /* 背景稍微变亮 */
+}
+
+
+/* ==================== 右侧：三张图片区域 ==================== */
+.right-images-box {
+    flex: 1;
+    margin-left: 10px;         /* 关键：距离左侧表格约 2.5 毫米（10像素）间距 */
+    display: flex;
+    justify-content: space-between; /* 三张图横向等距排列 */
+}
+.right-images-box .img-item {
+    width: 316px;              /* 精准计算的图片宽度 */
+    height: 170px;
+    display: block;
+    overflow: hidden;
+    background: #fff;
+    transition: box-shadow 0.3s ease; /* 阴影过渡动画 */
+}
+
+/* 图片自身填满 */
+.right-images-box .img-item img {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/* 关键：鼠标悬停时，图片旁边出现很浅很浅的灰色阴影 */
+.right-images-box .img-item:hover {
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.06); /* 极为轻柔的浅灰色阴影 */
+}
+
+.standalone-banner-box {
+    width: 1226px;             /* 核心：严格使用和上面一模一样的版心宽度，确保左右完美对齐 */
+    height: 120px;             /* 广告图的高度，可以根据你图片的实际比例自行调整 */
+    margin: 22px auto;         /* 关键：margin-top: 22px 留出规整间距；auto 让它在页面居中，从而对齐上面 */
+    box-sizing: border-box;
+}
+.standalone-banner-box .banner-link {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;          /* 防止图片溢出变形 */
+    transition: box-shadow 0.3s ease; /* 悬停时的阴影动画 */
+}
+/* 图片自身完美填满容器 */
+.standalone-banner-box .banner-link img {
+    width: 100%;
+    height: 100%;
+    display: block;            /* 去除图片底部的微小缝隙 */
+}
+
+.site-service{
+background-color: #fff;
+padding: 30px 0;
+margin:20px 0 0 0;
+}
+
+
+
+.service-list {
+    display:flex;  
+}
+
+.service-item {
+    flex: 1;    
+    text-align:center;
+}
+
+.service-item a {
+    text-decoration:none;
+    color: #616161;          /* 柔和的深灰色 */
+    font-size: 16px;         /* 舒适的字号 */
+}
+.service-item a:hover {     
+    color: #ff6700;
+}
+
+.site-links{
+    padding:40px 0;
+    background-color:white;
+    border-top: 1px solid #e0e0e0;
+
+}
+.site-links .container{
+    display: flex;
+    justify-content: space-between;
+}
+.links-col {
+    width: 160px;                 /* 限制每一列的宽度，防止文字撑宽变形 */
+}
+.links-col:first-child {
+    margin-left: 100px;            /* 数值越大，整体往右挪得越多！你可以根据视觉效果自由调整这个数字 */
+}
+
+.links-col h4 {
+    font-size: 14px;              /* 标题字号 */
+    color: #424242;               /* 深灰色，比普通文字略深 */
+    margin: 0 0 26px 0;           /* 核心：用底部 margin 26px 把下面的列表优雅地顶开 */
+    font-weight: 400;             /* 正常粗细，不宜过粗 */
+}
+.links-col ul {
+    margin: 0;
+    padding: 0;
+}
+.links-col ul li {
+    margin-top: 10px;             /* 每个小字项与上一个保持 10px 的呼吸空隙 */
+}
+.links-col ul li a {
+    color: #757575;               /* 商城经典的浅长辈灰色，看起来更高级 */
+    font-size: 12px;              /* 按照小米商城规范，列表小字采用 12px */
+    transition: color 0.2s;       /* 悬停变橙色时的平滑过渡效果 */
+}
+.links-col ul li a:hover {
+    color: #ff6700;               /* 鼠标放上去瞬间变成精致的小米橙 */
+}
