@@ -1,4 +1,3 @@
-
 /* 全局样式重置 */
 * {
     margin: 0;
@@ -320,7 +319,7 @@ ul {
 .slider-arrow:hover {
     background-color: rgba(0,0,0,0.6);
 }
-.slider-arrow.prev { left: 0px; } /* 避开左侧菜单 */
+.slider-arrow.prev { left: 233px; } /* 避开左侧菜单 */
 .slider-arrow.next { right: 0; }
 .slider-dots {
     position: absolute;
@@ -364,6 +363,7 @@ ul {
     padding: 20px 0;
     text-align: center;
     transition: all 0.5s linear;
+    padding-bottom: 15px;
 }
 .goods-item:hover {
     transform: translateY(-2px);
@@ -539,6 +539,8 @@ ul {
     justify-content: center;
     align-items: center;
 }
+/* ========== 车嘉欣 24215220109 ========== */
+
 
 .modal-box {
     background-color: #fff;
@@ -916,4 +918,26 @@ margin:20px 0 0 0;
 }
 .links-col ul li a:hover {
     color: #ff6700;               /* 鼠标放上去瞬间变成精致的小米橙 */
+}
+
+
+
+/* 2. 小米橙、圆角、不换行的完美购物车按钮 */
+.btn-add-cart {
+    border: none;
+    background: #ff6700;       /* 小米橙 */
+    color: #fff;
+    padding: 6px 16px;         /* 稍微加宽一点，更像小米官网的比例 */
+    font-size: 12px;
+    border-radius: 15px;       /* 完美的 15px 圆角 */
+    cursor: pointer;           /* 鼠标放上去变小手 👇 */
+    
+    white-space: nowrap;       /* 👈 核心：强行不换行！有了它，按钮就绝对不会往下掉、或者错位变形 */
+    margin: 2px auto 0 auto;   /* 👈 核心：自动左右平分，让按钮在商品格子内部完美居中！ */
+    display: block;            /* 变成块级元素，这样上面的 margin 居中才会生效 */
+}
+
+/* 鼠标放上去变深色 */
+.btn-add-cart:hover {
+    background: #e55a00;
 }
