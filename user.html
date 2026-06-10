@@ -1,1 +1,401 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>个人中心</title>
+    <style>
+        /* 1. 基础重置与小米版心 */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background-color: #f5f5f5; color: #333; }
+        a { text-decoration: none; color: inherit; }
+        .container { width: 1226px; margin: 0 auto; }
 
+        /* 2. 极简头部 */
+        .site-header { height: 80px; background-color: #fff; border-bottom: 2px solid #ff6700; }
+        .header-flex { display: flex; align-items: center; height: 100%; }
+        .logo { width: 45px; height: 45px; background-color: #ff6700; color: #fff; font-weight: bold; text-align: center; line-height: 45px; font-size: 20px; border-radius: 10px; }
+        .title { margin-left: 15px; font-size: 20px; }
+
+        /* 3. 核心：经典双栏布局 */
+        .uc-box { padding: 30px 0; }
+        .uc-container { display: flex; justify-content: space-between; }
+
+        /* 左侧导航栏 */
+        .uc-nav { width: 234px; background-color: #fff; padding: 20px; }
+        .uc-nav h3 { font-size: 15px; margin-top: 15px; margin-bottom: 10px; color: #333; }
+        .uc-nav h3:first-child { margin-top: 0; }
+        .uc-nav li { margin-bottom: 8px; list-style: none; }
+        .uc-nav li a { font-size: 14px; color: #757575; display: block; padding: 5px 0; cursor: pointer; }
+        .uc-nav li.active a, .uc-nav li a:hover { color: #ff6700; font-weight: bold; }
+
+        /* 右侧内容面板 */
+        .uc-content { width: 978px; background-color: #fff; padding: 30px; display: none; }
+        .uc-content.active { display: block; }
+        
+        /* 个人中心首页 */
+        .user-info { display: flex; align-items: center; padding-bottom: 20px; border-bottom: 1px solid #e0e0e0; }
+        .avatar { width: 60px; height: 60px; border-radius: 50%; background: #eee; font-size: 30px; text-align: center; line-height: 60px; margin-right: 15px; }
+        .user-stats { display: flex; margin-top: 30px; }
+        .stat-item { flex: 1; text-align: center; border-right: 1px solid #e0e0e0; }
+        .stat-item:last-child { border-right: none; }
+        .stat-item .num { font-size: 28px; color: #ff6700; font-weight: bold; }
+        .stat-item .label { font-size: 12px; color: #757575; margin-top: 5px; }
+
+        /* 通用表格与标题样式 */
+        .uc-content h2 { margin-bottom: 20px; font-size: 20px; color: #333; }
+        .simple-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        .simple-table th, .simple-table td { border: 1px solid #e0e0e0; padding: 12px; text-align: center; font-size: 14px; vertical-align: middle; }
+        .simple-table th { background-color: #f9f9f9; }
+
+        /* 商品图片样式控制 */
+        .goods-img { width: 60px; height: 60px; object-fit: contain; background: #fff; }
+
+        /* 数量加减器控制样式 */
+        .qty-box { display: inline-flex; border: 1px solid #e0e0e0; border-radius: 3px; overflow: hidden; }
+        .qty-btn { width: 30px; height: 28px; background: #fff; border: none; cursor: pointer; font-size: 16px; }
+        .qty-btn:hover { background-color: #eee; }
+        .qty-input { width: 40px; height: 28px; text-align: center; border: none; border-left: 1px solid #e0e0e0; border-right: 1px solid #e0e0e0; outline: none; }
+
+        /* 新增：删除商品按钮样式 */尽可能把关键代码都告诉我，讲解给我，然后里面可以填的值，还有C，SS逻辑
+        .btn-del { color: #ff6700; cursor: pointer; background: none; border: none; font-size: 14px; }
+        .btn-del:hover { color: #e55a00; text-decoration: underline; }
+
+        /* 结算底条 */
+        .cart-bar { display: flex; justify-content: space-between; align-items: center; background: #f9f9f9; padding: 15px; border: 1px solid #e0e0e0; margin-top: 20px; }
+        .total-price { color: #ff6700; font-size: 22px; font-weight: bold; }
+        .btn-submit { padding: 10px 25px; background-color: #ff6700; color: #fff; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; }
+        .btn-submit:hover { background-color: #e55a00; }
+         /* 1. 让购物车表格里的商品图片缩小，看起来精致不松散 */
+#cart-goods-body .goods-img {
+    width: 60px !important;
+    height: 60px !important;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+/* 2. 让订单历史列表里的图片更小、更有清单感 */
+#order-list-body .order-goods-img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+    </style>
+</head>
+<body>
+
+    <div class="site-header">
+        <div class="container header-flex">
+            <a href="index.html" class="logo">M</a>
+            <h2 class="title">个人中心</h2>
+        </div>
+    </div>
+
+    <div class="uc-box">
+        <div class="container uc-container">
+            
+            <div class="uc-nav" id="menu-box">
+                <h3>个人中心</h3>
+                <ul>
+                    <li class="menu-item active" id="menu-home" data-target="panel-home"><a>我的个人中心</a></li>
+                </ul>
+                <h3>商城业务</h3>
+                <ul>
+                    <li class="menu-item" id="menu-shop" data-target="panel-shop"><a>选购与结算</a></li>
+                    <li class="menu-item" id="menu-order" data-target="panel-order"><a>我的订单</a></li>
+                </ul>
+            </div>
+
+            <div class="uc-content active" id="panel-home">
+                <div class="user-info">
+                    <div class="avatar">👤</div>
+                    <div>
+                        <h2>我的用户名</h2>
+                        <p style="font-size:12px; color:#b0b0b0;">欢迎回到小米商城</p>
+                    </div>
+                </div>
+                <div class="user-stats">
+                    <div class="stat-item">
+                        <div class="num" id="stat-pay">0</div>
+                        <div class="label">待付款订单</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="num" id="stat-done">0</div>
+                        <div class="label">已完成订单</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="uc-content" id="panel-shop">
+                <h2>模拟产品选购购物车</h2>
+                <table class="simple-table" id="cart-table">
+                    <thead>
+                        <tr>
+                            <th width="60">选择</th>
+                            <th width="100">商品图片</th>
+                            <th>商品名称</th>
+                            <th>单价</th>
+                            <th width="120">数量</th>
+                            <th>小计</th>
+                            <th width="80">操作</th> </tr>
+                    </thead>
+                 <tbody id="cart-goods-body">
+    <tr>
+        <td colspan="7" style="color: #b0b0b0; padding: 30px; text-align: center;">购物车空空如也，快去商城添加吧！</td>
+    </tr>
+</tbody>
+                </table>
+
+                <div class="cart-bar">
+                    <div>
+                        已选择 <span id="select-count" style="color:#ff6700;font-weight:bold;">1</span> 件商品
+                    </div>
+                    <div>
+                        合计（不含运费）：<span class="total-price">￥<span id="total-sum">4999</span></span>
+                        <button class="btn-submit" id="btn-checkout" style="margin-left: 20px;">立即结算</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="uc-content" id="panel-order">
+                <h2>我的订单列表</h2>
+                <table class="simple-table">
+                    <thead>
+                        <tr>
+                            <th>订单商品</th>
+                            <th>结算总金额</th>
+                            <th>订单状态</th>
+                        </tr>
+                    </thead>
+                    <tbody id="order-list-body">
+                        <tr>
+                            <td colspan="3" style="color: #b0b0b0; padding: 30px;">暂无订单，请前往选购区结算</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. 获取页面上所有的控制节点
+    const menuItems = document.querySelectorAll('.menu-item');
+    const contents = document.querySelectorAll('.uc-content');
+    const cartBody = document.getElementById('cart-goods-body');
+    const selectCountSpan = document.getElementById('select-count');
+    const totalSumSpan = document.getElementById('total-sum');
+    const btnCheckout = document.getElementById('btn-checkout');
+    const orderListBody = document.getElementById('order-list-body');
+    const statPay = document.getElementById('stat-pay');
+    const statDoneNum = document.getElementById('stat-done');
+
+    // 2. 左侧菜单切换逻辑
+    function switchTab(targetId) {
+        menuItems.forEach(item => {
+            if (item.getAttribute('data-target') === targetId) {
+                item.classList.add('active');
+            } else {
+                item.classList.remove('active');
+            }
+        });
+        contents.forEach(content => {
+            if (content.id === targetId) {
+                content.classList.add('active');
+            } else {
+                content.classList.remove('active');
+            }
+        });
+    }
+
+    menuItems.forEach(item => {
+        item.addEventListener('click', function() {
+            switchTab(this.getAttribute('data-target'));
+        });
+    });
+
+    // 接收首页跳转过来的暗号
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('target') === 'shop' || window.location.hash === '#shop') {
+        switchTab('panel-shop');
+    }
+
+    // 3. 数据层：读取本地记事本
+    let cartList = JSON.parse(localStorage.getItem('my_center_cart')) || [];
+    let orderList = JSON.parse(localStorage.getItem('my_center_orders')) || [];
+
+    // 给购物车数据做初始化兜底（确保每个商品都有 quantity 属性，默认是 1）
+    cartList = cartList.map(item => {
+        if (!item.quantity) item.quantity = 1;
+        return item;
+    });
+
+    // 首次开机渲染
+    renderAll();
+
+    // 4. 核心功能：全页真交互渲染函数
+    function renderAll() {
+        // --- A. 渲染购物车表格 ---
+        if (cartList.length === 0) {
+            cartBody.innerHTML = `<tr><td colspan="7" style="color: #b0b0b0; padding: 30px; text-align: center;">购物车空空如也，快去商城添加吧！</td></tr>`;
+            selectCountSpan.textContent = "0";
+            totalSumSpan.textContent = "0";
+        } else {
+            let html = '';
+            let totalCheckedCount = 0;
+            let totalSumPrice = 0;
+
+            cartList.forEach((item, index) => {
+                let subtotal = item.price * item.quantity;
+                totalCheckedCount += item.quantity;
+                totalSumPrice += subtotal;
+
+                html += `
+                    <tr class="goods-row" data-index="${index}">
+                        <td><input type="checkbox" class="g-chk" checked></td>
+                        <td><img class="goods-img" src="${item.img}" alt="${item.name}"></td>
+                        <td class="g-name">${item.name}</td>
+                        <td><span class="g-price">${item.price}</span>元</td>
+                        <td>
+                            <div class="qty-box">
+                                <button class="qty-btn btn-minus">-</button>
+                                <input type="text" class="qty-input" value="${item.quantity}" readonly>
+                                <button class="qty-btn btn-plus">+</button>
+                            </div>
+                        </td>
+                        <td><span class="g-subtotal">${subtotal}</span>元</td>
+                        <td><button class="btn-del">删除</button></td>
+                    </tr>
+                `;
+            });
+            cartBody.innerHTML = html;
+            selectCountSpan.textContent = totalCheckedCount;
+            totalSumSpan.textContent = totalSumPrice;
+        }
+
+        // --- B. 渲染已完成订单和统计数字 ---
+        if (statDoneNum) statDoneNum.textContent = orderList.length;
+
+        if (orderList.length === 0) {
+            orderListBody.innerHTML = `<tr><td colspan="3" style="color: #b0b0b0; padding: 30px; text-align: center;">暂无订单，请前往选购区结算</td></tr>`;
+        } else {
+            let html = '';
+            orderList.forEach(order => {
+                let goodsHtml = '';
+                order.items.forEach(item => {
+                    goodsHtml += `
+                        <div style="margin-bottom: 5px; text-align: left; display: flex; align-items: center;">
+                            <img class="order-goods-img" src="${item.img}" alt="${item.name}">
+                            <span style="font-size:13px; font-weight:bold;">${item.name} x${item.quantity}</span>
+                        </div>
+                    `;
+                });
+                html += `
+                    <tr>
+                        <td>${goodsHtml}</td>
+                        <td style="color:#ff6700; font-weight:bold;">￥${order.totalAmount}</td>
+                        <td><span style="color:#4caf50; font-weight:bold;">● ${order.status}</span></td>
+                    </tr>
+                `;
+            });
+            orderListBody.innerHTML = html;
+        }
+    }
+
+    // 5. 事件委托：处理加减按钮点击、勾选变化和整行删除
+    document.getElementById('cart-table').addEventListener('click', function(e) {
+        const target = e.target;
+        const row = target.closest('.goods-row');
+        if (!row) return;
+
+        const index = parseInt(row.getAttribute('data-index'));
+
+        // 点击加号
+        if (target.classList.contains('btn-plus')) {
+            cartList[index].quantity += 1;
+            localStorage.setItem('my_center_cart', JSON.stringify(cartList));
+            renderAll();
+        }
+        // 点击减号
+        else if (target.classList.contains('btn-minus')) {
+            if (cartList[index].quantity > 1) {
+                cartList[index].quantity -= 1;
+                localStorage.setItem('my_center_cart', JSON.stringify(cartList));
+                renderAll();
+            }
+        }
+        // 点击删除
+        else if (target.classList.contains('btn-del')) {
+            cartList.splice(index, 1);
+            localStorage.setItem('my_center_cart', JSON.stringify(cartList));
+            renderAll();
+        }
+    });
+
+    // 监听勾选框手动的变化
+    document.getElementById('cart-table').addEventListener('change', function(e) {
+        if (e.target.classList.contains('g-chk')) {
+            // 重新实时计算被勾选的数据
+            const rows = document.querySelectorAll('.goods-row');
+            let totalCheckedCount = 0;
+            let totalSumPrice = 0;
+
+            rows.forEach(row => {
+                const chk = row.querySelector('.g-chk');
+                const idx = parseInt(row.getAttribute('data-index'));
+                if (chk && chk.checked) {
+                    totalCheckedCount += cartList[idx].quantity;
+                    totalSumPrice += (cartList[idx].price * cartList[idx].quantity);
+                }
+            });
+            selectCountSpan.textContent = totalCheckedCount;
+            totalSumSpan.textContent = totalSumPrice;
+        }
+    });
+
+    // 6. 立即结算交互
+    btnCheckout.addEventListener('click', function() {
+        // 抓取当前所有被勾选的行
+        const rows = document.querySelectorAll('.goods-row');
+        let checkedItems = [];
+
+        rows.forEach(row => {
+            const chk = row.querySelector('.g-chk');
+            if (chk && chk.checked) {
+                const idx = parseInt(row.getAttribute('data-index'));
+                checkedItems.push(cartList[idx]);
+            }
+        });
+
+        if (checkedItems.length === 0) {
+        console.log('未勾选任何商品');        
+            return;
+        }
+
+        // 生成新大订单
+        const newOrder = {
+            items: checkedItems,
+            totalAmount: totalSumSpan.textContent,
+            status: '已完成'
+        };
+
+        // 存入订单历史
+        orderList.push(newOrder);
+        localStorage.setItem('my_center_orders', JSON.stringify(orderList));
+
+        // 购物车中删掉已经结算的商品
+        cartList = cartList.filter(item => !checkedItems.includes(item));
+        localStorage.setItem('my_center_cart', JSON.stringify(cartList));
+
+        // 全面重绘刷新
+        renderAll();
+switchTab('panel-order');
+    });
+});
+</script>
+
+</body>
+</html>
